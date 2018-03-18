@@ -22,6 +22,21 @@
 
 参考：  https://stackoverflow.com/questions/34682035/cluster-and-fork-mode-difference-in-pm2
 
+2.4 在webpack配置[uglifJs]()后打包报下面这种错误的时候：
+
+```
+xxx-a69de75d299773b2d645.js from UglifyJs
+undefined
+```
+
+那是因为你在配置uglifyjs的时候把`parallel: true`  打开了，关掉之后详细的报错内容就会打印出来的。
+
+```
+xxx-a69de75d299773b2d645.js from UglifyJs
+TypeError: sym.definition is not a function
+    at may_modify (eval at <anonymous> (/root/SourceCode/dianwoda-shop-app/node_modules/uglify-es/tools/node.js:21:1), <anonymous>:8931:31)
+......
+```
 
 ### 3、CSS
 3.1 `:first-line`伪类可以用来指定文本第一行的样式
@@ -50,16 +65,16 @@
 
 3.8 弹窗遮罩，底部跟随滚动，也就是滚动透传，解决办法是在弹出层元素添加onTouchMove事件，调用e.preventDefault()方法
 
-### 4、兼容性
-4.1 ios滚动不流畅的时候可以加一个样式试试看： `-webkit-overflow-scrolling:touch`
+3.9 `flex: 1`并不等同于`flex-grow: 1`，为了有更好的兼容性，建议都使用flex这种写法，而不要单独去设置`flex-grow`/`flex-shrink`/`flex-basis`，因为你只写其中一个，浏览器会去推算其他几个相关值，从而导致兼容性问题。
 
+3.10 ios滚动不流畅的时候可以加一个样式试试看： `-webkit-overflow-scrolling:touch`
 
-### 5. javascript
-5.1 postMessage报错： `"An object could not be cloned" when promise is rejected with an error"`, 因为postMessage传递的结构体包含了无法克隆的数据，比如传递了一个函数。
+### 4. javascript
+4.1 postMessage报错： `"An object could not be cloned" when promise is rejected with an error"`, 因为postMessage传递的结构体包含了无法克隆的数据，比如传递了一个函数。
 
-5.2 禁止这种写法： `{item.image ? <img alt="" src={require(`sprites/${item.image}.png`)} /> : item.text}`  ，这样会把所有的图片打包进来
+4.2 禁止这种写法： `{item.image ? <img alt="" src={require(`sprites/${item.image}.png`)} /> : item.text}`  ，这样会把所有的图片打包进来
 
-5.3 关于JS的match方法使用：
+4.3 关于JS的match方法使用：
  如果正则表达式不包含`g`标志位，`str.match()`将会返回和`RegExp.exec()`一样的结果。返回的`Array`有一个额外的`input`属性，其中就包含了传进来匹配的原始字符串。另外还有`index`属性，用来表示匹配文本的起始字符在原始字符串中的其起始位置。如果包含了`g`标志位，返回的`Array`包含了所有匹配上的子字符串而不是匹配对象。捕获组不会被返回。我们举个例子：
 
 ```
@@ -70,11 +85,11 @@ str.match(/str/)
 // ["str", index: 0, input: "str1.str2.str3", groups: undefined]
 ```
 
-5.4 `document.querySelectorAll`返回的是伪数组`NodeList`, 需要使用`Array.from`或者`[...result]`来转为数组，才可以使用Array的各种原生方法
+4.4 `document.querySelectorAll`返回的是伪数组`NodeList`, 需要使用`Array.from`或者`[...result]`来转为数组，才可以使用Array的各种原生方法
 
-5.5 浮点数相加或者相乘或者Number一个很大的数字都会出现错误，关于这个JS的语言缺陷请参考这篇文章[]()
+4.5 浮点数相加或者相乘或者Number一个很大的数字都会出现错误，关于这个JS的语言缺陷请参考这篇文章[]()
 
-5.6 箭头函数是没有`arguments`参数的。所以你这样使用会报错的：
+4.6 箭头函数是没有`arguments`参数的。所以你这样使用会报错的：
 
 ```
 const a = () => {console.log(arguments)}
@@ -86,3 +101,76 @@ Uncaught ReferenceError: arguments is not defined
     at a (<anonymous>:1:30)
     at <anonymous>:1:1
 ```
+
+4.7 统计字符串某个字符出现的次数:
+
+最快速的办法是直接以该字符为分隔符:  `str.split('a').length - 1`
+
+4.8 统计字符串出现次数最多的字符(各个字符出现的次数)：
+```
+const str = 'fhsdfhdsofsifjisffs'
+const arr = str.split(''); //把字符串转换为数组
+//首先进行排序，这样结果会把相同的字符放在一起，然后再转换为字符串
+const str = arr.sort().join('')
+const value = ''
+const index = 0
+//匹配字符，且重复这个字符，重复次数至少一次
+const re = /(\w)\1+/g
+str.replace(re, function ($0, $1) {
+  console.log($0, $1)
+  //如果index保存的值小于$0的长度就进行下面的操作
+  if (index < $0.length) {
+    index = $0.length; 
+    value = $1; 
+ }
+})
+```
+
+以此类推，计算各个字符出现的次数
+
+**Note**：
+
+    replace方法,第二个参数使用的是function的话,如果正则表达式有g的标志,那么每次匹配上都会被调用一次. 然后函数里面的形参是:
+    1. match: 本次匹配到的结果
+    2. $1,...$9: 正则表达式中有几个()，就会传递几个参数，$1~$9分别代表本次匹配中每个()提取的结果，最多9个
+    3. offset: 记录本次匹配的开始位置
+    4. source:接受匹配的原始字符串
+
+4.9 转换字符串的第一个字母为大写字母
+
+str.charAt(0).toUpperCase() + str.slice(1)
+
+### 5、nodejs
+5.1 `app.listen()` vs `require('http').createServer(app)`
+
+其中的app是： `const app = express()`
+
+第一种形式是会返回一个http服务器实例，你再使用这个实例去实现一些定制化的东西，而第二种形式是你主动去创建一个http服务器实例，这种写法在你想要重用http服务器实例的时候特别有用。
+
+比如使用`socket.io`来创建长连接服务器可以有下面两种写法(推荐第一种)：
+
+```
+var express = require('express');
+var app     = express();
+var server  = require('http').createServer(app);
+var io      = require('socket.io').listen(server);
+...
+server.listen(1234);
+```
+和
+
+```
+var express   = require('express');
+var app       = express();
+
+// app.use/routes/etc...
+
+var server    = app.listen(3033);
+var io        = require('socket.io').listen(server);
+
+io.sockets.on('connection', function (socket) {
+  ...
+});
+```
+
+### 6. typescript
