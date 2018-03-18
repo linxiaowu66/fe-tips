@@ -89,7 +89,7 @@ str.match(/str/)
 
 4.4 `document.querySelectorAll`返回的是伪数组`NodeList`, 需要使用`Array.from`或者`[...result]`来转为数组，才可以使用Array的各种原生方法
 
-4.5 浮点数相加或者相乘或者Number一个很大的数字都会出现错误，关于这个JS的语言缺陷请参考这篇文章[]()
+4.5 浮点数相加或者相乘或者Number一个很大的数字都会出现错误，关于这个JS的语言缺陷请参考这篇文章[javascript语言数字运算缺陷](http://blog.5udou.cn/blog/javascriptYu-Yan-Shu-Zi-Yun-Suan-Que-Xian-19)
 
 4.6 箭头函数是没有`arguments`参数的。所以你这样使用会报错的：
 
