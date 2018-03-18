@@ -40,7 +40,9 @@ TypeError: sym.definition is not a function
 
 ### 3、CSS
 3.1 `:first-line`伪类可以用来指定文本第一行的样式
+
 3.2 `position:absolute;left/right/bottom/top`全为0的时候元素的高度和宽度会和父元素一致，有时候比`height:100%;width:100%`更有效果
+
 3.3 image的尺寸容器的设置技巧，有时候UI童鞋会要求你展示一张图片，展示宽高比为3:1，或者其他比例，这个时候你可以使用padding-top的百分比特性去实现，比如：
 
 ```
@@ -138,7 +140,7 @@ str.replace(re, function ($0, $1) {
 
 4.9 转换字符串的第一个字母为大写字母
 
-str.charAt(0).toUpperCase() + str.slice(1)
+`str.charAt(0).toUpperCase() + str.slice(1)`
 
 4.10 快速让一个数组乱序：
 
@@ -197,7 +199,7 @@ io.sockets.on('connection', function (socket) {
 错误：
 1.  `Block-scoped variable 'error' used before its declaration`
 
-2. Element implicitly has an 'any' type because type 'Error' has no index signature
+2. `Element implicitly has an 'any' type because type 'Error' has no index signature`
 
 修改为正确的形式：
 ```
