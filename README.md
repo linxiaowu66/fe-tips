@@ -12,6 +12,7 @@
 
 2.2 [react]()使用数组的index作为key是一种反模式，所以强烈建议不要使用index作为key值，如下例子：
 
+**http://jsbin.com/wohima/edit?js,output**
 
 2.3 [pm2]()的配置文件中使用下面这个属性:
 
@@ -40,7 +41,9 @@ TypeError: sym.definition is not a function
 
 ### 3、CSS
 3.1 `:first-line`伪类可以用来指定文本第一行的样式
+
 3.2 `position:absolute;left/right/bottom/top`全为0的时候元素的高度和宽度会和父元素一致，有时候比`height:100%;width:100%`更有效果
+
 3.3 image的尺寸容器的设置技巧，有时候UI童鞋会要求你展示一张图片，展示宽高比为3:1，或者其他比例，这个时候你可以使用padding-top的百分比特性去实现，比如：
 
 ```
@@ -273,4 +276,4 @@ async function(...args) {
     <meta name="x5-page-mode" content="app">
     <!-- windows phone 点击无高光 -->
     <meta name="msapplication-tap-highlight" content="no">
-```  
+```     
