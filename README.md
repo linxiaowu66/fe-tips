@@ -55,6 +55,8 @@ obj.b = 3 // 什么都没有发生
 obj.a = 2 // observe 函数的回调触发了，控制台输出：2
 ```
 
+参考：https://zhuanlan.zhihu.com/p/25585910?refer=purerender
+
 2.6 要是有人问你react的事件和原生的addEventListner有啥区别?怎么回答好？
 
 在React中，如果像在`onClick`中所做的那样在JSX中指定事件时，是不能直接处理常规的`DOM`事件的，而是处理React特定的事件类型`SyntheticEvent`。你的事件处理器不能得到原生的事件参数类型`MouseEvent`、`KeyboardEvent`等等，而是总是得到封装了浏览器的原生事件的事件参数类型`SyntheticEvent`。
@@ -385,3 +387,18 @@ declare module 'yeoman-environment';
 ```
 
 ### 8、WEB安全
+8.1 CSRF攻击
+
+CSRF跨站点请求伪造(Cross—Site Request Forgery)，攻击者盗用了你的身份，以你的名义发送恶意请求，对服务器来说这个请求是完全合法的，但是却完成了攻击者所期望的一个操作，比如以你的名义发送邮件、发消息，盗取你的账号，添加系统管理员，甚至于购买商品、虚拟货币转账等
+
+8.2 XSS攻击
+
+XSS攻击全称跨站脚本攻击(Cross Site Scripting)。XSS是指恶意攻击者利用网站没有对用户提交数据进行转义处理或者过滤不足的缺点，进而添加一些代码，嵌入到web页面中去。使别的用户访问都会执行相应的嵌入代码。有3个步骤：
+
+  * 攻击者对含有漏洞的服务器发起XSS攻击（注入JS代码）
+  * 诱使受害者打开受到攻击的服务器URL
+  * 受害者在Web浏览器中打开URL，恶意脚本执行
+
+8.3 DDOS攻击
+
+DDOS攻击是指分布式拒绝服务攻击(Distributed Denial of Service)，这种攻击的方式是控制分布在全世界各个地方的服务器，发出指令，让这些服务器同时攻击一个目标，使得被攻击的计算机信息系统耗尽网络带宽资源、性能资源，无法正常运行或提供服务
