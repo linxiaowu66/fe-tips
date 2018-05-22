@@ -8,13 +8,13 @@
 1.1 Chrome的device mode中鼠标左键点击的时候除了有touchStart事件，还会触发mouseDown事件，并且有300ms的延迟。这个时候如果你的某个元素检测mouseDown事件的话会被触发的
 
 ### 2、第三方库
-2.1  [better-scroll]()无法滚动的原因大致有两点： scrollHeight <= wrapperHeight,  wrapper内部的数据发生改变但是代码没有调用refresh函数
+2.1  [better-scroll](https://github.com/ustbhuangyi/better-scroll)无法滚动的原因大致有两点： scrollHeight <= wrapperHeight,  wrapper内部的数据发生改变但是代码没有调用refresh函数
 
-2.2 [react]()使用数组的index作为key是一种反模式，所以强烈建议不要使用index作为key值，如下例子：
+2.2 [react](https://github.com/facebook/react)使用数组的index作为key是一种反模式，所以强烈建议不要使用index作为key值，如下例子：
 
 **http://jsbin.com/wohima/edit?js,output**
 
-2.3 [pm2]()的配置文件中使用下面这个属性:
+2.3 [pm2](https://github.com/Unitech/pm2)的配置文件中使用下面这个属性:
 
 ```
 "interpreter": "/home/appdev/.nvm/versions/node/v8.9.4/bin/node",
@@ -23,7 +23,7 @@
 
 参考：  https://stackoverflow.com/questions/34682035/cluster-and-fork-mode-difference-in-pm2
 
-2.4 在webpack配置[uglifJs]()后打包报下面这种错误的时候：
+2.4 在webpack配置[uglifJs](https://github.com/mishoo/UglifyJS2)后打包报下面这种错误的时候：
 
 ```
 xxx-a69de75d299773b2d645.js from UglifyJs
@@ -71,6 +71,16 @@ TypeError: sym.definition is not a function
 3.9 `flex: 1`并不等同于`flex-grow: 1`，为了有更好的兼容性，建议都使用flex这种写法，而不要单独去设置`flex-grow`/`flex-shrink`/`flex-basis`，因为你只写其中一个，浏览器会去推算其他几个相关值，从而导致兼容性问题。
 
 3.10 ios滚动不流畅的时候可以加一个样式试试看： `-webkit-overflow-scrolling:touch`
+
+3.11 图文不可复制的CSS写法：
+
+```
+-webkit-user-select: none;
+-ms-user-select: none;
+-moz-user-select: none;
+-khtml-user-select: none;
+user-select: none;
+```
 
 ### 4. javascript
 4.1 postMessage报错： `"An object could not be cloned" when promise is rejected with an error"`, 因为postMessage传递的结构体包含了无法克隆的数据，比如传递了一个函数。
@@ -123,8 +133,8 @@ str.replace(re, function ($0, $1) {
   console.log($0, $1)
   //如果index保存的值小于$0的长度就进行下面的操作
   if (index < $0.length) {
-    index = $0.length; 
-    value = $1; 
+    index = $0.length;
+    value = $1;
  }
 })
 ```
@@ -158,7 +168,32 @@ var arr = [1,2,3,4,5,6,7,8,9,10];
 
 另外还有其他几种方法，大家可以自行网上查找。
 
-4.12 toFixed 来做四舍五入是有bug的。1.005.toFixed(2) 返回的是 1.00 而不是 1.01。因为1.005其实存储后变成了1.00499999999999989，四舍五入后小数点全都被抹掉了。解决办法可以记住第三方库去做这个四舍五入
+4.12 用`toFixed`来做四舍五入是有bug的。1.005.toFixed(2) 返回的是 1.00 而不是 1.01。因为1.005其实存储后变成了1.00499999999999989，四舍五入后小数点全都被抹掉了。解决办法可以记住第三方库去做这个四舍五入
+
+4.13 如何快速查找这种深层次的对象？
+
+```
+[{
+  children: [{
+    label: '',
+      value: '',
+      children: [{
+        value:'',
+        lable:''
+      }
+    ]
+  }],
+  label: '',
+  value: ''
+}]
+```
+
+比如现在已知有个`value=2957`的值，想要查找它对应的lable是什么？最快速的办法不是去一层层遍历，而是这样：
+
+```
+const result = JSON.stringify(b).trim()
+const index = result.match(/{"value":"2975","label":\"(.*?)\"}/)
+```
 
 ### 5、nodejs
 5.1 `app.listen()` vs `require('http').createServer(app)`
@@ -203,7 +238,17 @@ io.sockets.on('connection', function (socket) {
 console.log(process.argv)
 ```
 
-那么当我执行
+那么当我执行`./test.js init -t abc -b add`的时候，`process.agrv`打印如下：
+
+```
+[ '/usr/local/Cellar/node/9.7.1/bin/node',
+  '/Users/linxiaowu/SourceCode/panther/bin/panther.js',
+  'init',
+  '-t',
+  'abc',
+  '-b',
+  'add' ]
+```
 
 
 ### 6. typescript
@@ -307,4 +352,4 @@ declare module 'yeoman-environment';
     <meta name="x5-page-mode" content="app">
     <!-- windows phone 点击无高光 -->
     <meta name="msapplication-tap-highlight" content="no">
-```     
+```
