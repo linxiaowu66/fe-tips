@@ -1,7 +1,7 @@
 ## 前言
 前端行业的知识非常广泛，每一个方向都足够读者去花很多时间去学习。在平时的工作中，我们也会遇到很多稀奇古怪的问题，这篇文章的目的就是总结这些稀奇古怪的东西，以供大家学习，或许这里可以找到你想要的答案。
 
-**本篇文章会持续更新，同步发表在[前端开发小知识点总结](http://blog.5udou.cn/blog/Qian-Duan-Kai-Fa-Xiao-Zhi-Shi-Dian-Zong-Jie-63)和[github](https://github.com/linxiaowu66/fe-tips/tree/master)**
+**本篇文章会持续更新，同步发表在[前端开发小知识点总结](https://blog.5udou.cn/blog/Qian-Duan-Kai-Fa-Xiao-Zhi-Shi-Dian-Zong-Jie-63)和[github](https://github.com/linxiaowu66/fe-tips/tree/master)**
 
 
 ### 1、浏览器
@@ -156,6 +156,8 @@ var arr = [1,2,3,4,5,6,7,8,9,10];
 
 ` [...new Set([2,"12",2,12,1,2,1,6,12,13,6])]`
 
+另外还有其他几种方法，大家可以自行网上查找。
+
 4.12 toFixed 来做四舍五入是有bug的。1.005.toFixed(2) 返回的是 1.00 而不是 1.01。因为1.005其实存储后变成了1.00499999999999989，四舍五入后小数点全都被抹掉了。解决办法可以记住第三方库去做这个四舍五入
 
 ### 5、nodejs
@@ -190,6 +192,19 @@ io.sockets.on('connection', function (socket) {
   ...
 });
 ```
+
+5.2 关于在nodejs中执行命令行，可能有些人没执行过，不清楚执行命令后参数的传入是如何的，这里演示一个例子，供参考：
+
+**test.js**
+
+```
+#!/usr/bin/env node
+
+console.log(process.argv)
+```
+
+那么当我执行
+
 
 ### 6. typescript
  6.1 下面这种自定义错误的写法会报两种错误：
@@ -239,6 +254,22 @@ The 'arguments' object cannot be referenced in an async function or method in ES
 async function(...args) {
       console.log('calling.....', args)
 }
+```
+
+6.4 一些外部第三方包没有类型定义，于是你引用的时候就会报错，这时你需要这么配置才可以消除这个报错：
+
+在`tsconfig.json`中修改，比如yeoman-environment就没有类型定义：
+
+```
+"paths": {
+  "yeoman-environment": ["./types/yeoman-environment.d.ts"]
+}
+```
+
+然后在types目录下新建一个yeoman-environment.d.ts的文件，里面只需要声明如下即可：
+
+```
+declare module 'yeoman-environment';
 ```
 
 ### 7、HTML
