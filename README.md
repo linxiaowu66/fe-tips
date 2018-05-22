@@ -39,6 +39,36 @@ TypeError: sym.definition is not a function
 ......
 ```
 
+2.5 在[Mobx](https://github.com/mobxjs/mobx)中，下面这行代码可以轻松的大致理解mobx的机制：
+
+```
+const obj = observable({
+    a: 1,
+    b: 2
+})
+
+autoRun(() => {
+    console.log(obj.a)
+})
+
+obj.b = 3 // 什么都没有发生
+obj.a = 2 // observe 函数的回调触发了，控制台输出：2
+```
+
+2.6 要是有人问你react的事件和原生的addEventListner有啥区别?怎么回答好？
+
+在React中，如果像在`onClick`中所做的那样在JSX中指定事件时，是不能直接处理常规的`DOM`事件的，而是处理React特定的事件类型`SyntheticEvent`。你的事件处理器不能得到原生的事件参数类型`MouseEvent`、`KeyboardEvent`等等，而是总是得到封装了浏览器的原生事件的事件参数类型`SyntheticEvent`。
+
+这样的做法有两个好处：1、浏览器兼容性，2、性能提升
+
+通过将所有本地事件封装为一个`SyntheticEvent`类型的对象，React让我们从处理最终不得不处理的事件处理怪癖中解脱出来。
+
+在复杂的UI中，事件处理器越多，应用程序占用的内存就越多。虽然手动处理这并不难，但是这有点枯燥，因为你得设法将事件组织到一个共同的父之下。有时，这是不可能的。有时，麻烦超过了好处。而 React 就做的很聪明。React从不会将事件处理器直接绑定到 DOM 元素。它在文档的根部使用一个事件处理器，来负责监听所有事件，并按需调用合适的事件处理器
+
+`SyntheticEvent`是一个跨浏览器封装的浏览器原生事件。它和浏览器原生事件有相同的接口，包括`stopPropagation`和`preventDefault`。如果你因为某些原因需要底层浏览器事件，可以简单地使用nativeEvent属性去获取。
+
+React的合成事件名字是驼峰型的，另外一个区别是react事件无法使用`return false`去阻止默认行为。而是需要明确地调用`preventDefault`。
+
 ### 3、CSS
 3.1 `:first-line`伪类可以用来指定文本第一行的样式
 
@@ -318,7 +348,7 @@ declare module 'yeoman-environment';
 ```
 
 ### 7、HTML
-1. 可能用到meta标签
+7.1  可能用到meta标签
 ```
  <!-- 设置缩放 -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
@@ -353,3 +383,5 @@ declare module 'yeoman-environment';
     <!-- windows phone 点击无高光 -->
     <meta name="msapplication-tap-highlight" content="no">
 ```
+
+### 8、WEB安全
