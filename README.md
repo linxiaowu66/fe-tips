@@ -236,6 +236,15 @@ const arr=[[1,2,3],[3,4],[5]];
 [].concat.apply([],arr)
 ```
 
+4.16 为了解决安卓手机输入框聚焦的时候弹出软键盘遮住输入框的问题
+```
+window.onresize = () => {
+  const textArea = document.querySelector('.dui-textarea')
+  textArea.scrollIntoViewIfNeeded(true)
+  textArea.scrollIntoView(true)
+}
+```
+
 ### 5、nodejs
 5.1 `app.listen()` vs `require('http').createServer(app)`
 
