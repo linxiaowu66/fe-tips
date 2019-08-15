@@ -116,6 +116,39 @@ user-select: none;
 
 3.12 div包裹img，但是div总会比img大3px，这是因为img标签是inline-block，所以浏览器总会让img的下边缘与基线对齐，而不是紧贴容器下边缘。解决办法便是设置`display: block`或者设置`vertical-align:bottom;`也是可以的
 
+3.13 使用css实现下面这种两边尖三角形的效果：
+
+![](https://blogimages2016.oss-cn-hangzhou.aliyuncs.com/web%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/special-arrow.png)
+
+```
+// HTML代码：
+<div className="sub-title">集冰点值赢大奖</div>
+
+// CSS代码
+.sub-title{
+  transform: translateY(px2rem(130));
+  display: flex;
+  justify-content: center;
+  margin: px2rem(7) auto px2rem(5) auto;
+  color: #F96001;
+  font-size: px2rem(14);
+  font-weight: bold;
+  align-items: center;
+  &:before{
+    content: '';
+    border-top: px2rem(3) solid #F96001;
+    border-left: px2rem(77) solid transparent;
+    margin-right: px2rem(10);
+  }
+  &:after{
+    content: '';
+    border-top: px2rem(3) solid #F96001;
+    border-right: px2rem(77) solid transparent;
+    margin-left: px2rem(10);
+  }
+}
+```
+
 ### 4. javascript
 4.1 postMessage报错： `"An object could not be cloned" when promise is rejected with an error"`, 因为postMessage传递的结构体包含了无法克隆的数据，比如传递了一个函数。
 
@@ -405,6 +438,35 @@ declare module 'yeoman-environment';
     <!-- windows phone 点击无高光 -->
     <meta name="msapplication-tap-highlight" content="no">
 ```
+
+7.2 input标签设置`type=number`在浏览器下留的坑，需求背景是input输入框只能输入数字，并且需要唤起数字键盘，于是想到用`type=number`和正则表达式来实现，但是浏览器偏偏不遂人意，当我输入诸如`.`或者`-`这类字符的时候便没有过滤掉，打印了当前的`e.target.value`的值竟然是空字符串，相关的bug这里有提及到： [传送门](https://github.com/facebook/react/issues/13752)。**最后终极解决办法便是使用`type=tel`这种.**
+
+7.3 input输入需要正则表达式去过滤某些字符的时候，不能纯粹使用onInput去实现，而是要借助onCompositionStart和onCompositionEnd去实现，比如某个输入框只允许输入中文和·：
+
+```
+// js代码
+handleEdit = (type, e) => {
+  const result = e.target.value.replace(/[^·\u4E00-\u9FA5]/g, '')
+}
+
+// html代码
+<input placeholder="请输入真实姓名"
+  value={riderName}
+  maxLength={20}
+  onCompositionStart={() => { this.inputLock = true }}
+  onCompositionEnd={(e) => {
+    this.inputLock = false
+    this.handleEdit(e)
+  }}
+  onInput={(e) => {
+    if (!this.inputLock) {
+      this.handleEdit(e)
+      e.returnValue = false;
+    }
+  }}
+/>
+```
+
 
 ### 8、WEB安全
 8.1 CSRF攻击
