@@ -280,6 +280,17 @@ window.onresize = () => {
 }
 ```
 
+4.17 关于`console.log(...)`的报错
+
+这种错误铁定是因为你没有在`console.log`后面加上分号，导致后面的方法与`console.log`链式调用了，比如：
+
+```
+console.log()
+(function(){})
+```
+
+**所以说加上分号还是很有用的~~~**
+
 ### 5、nodejs
 5.1 `app.listen()` vs `require('http').createServer(app)`
 
