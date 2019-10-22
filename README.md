@@ -291,6 +291,21 @@ console.log()
 
 **所以说加上分号还是很有用的~~~**
 
+4.18 typeof
+
+```
+// 错误的写法
+if (v) {
+  // ...
+}
+// ReferenceError: v is not defined
+
+// 正确的写法
+if (typeof v === "undefined") {
+  // ...
+}
+```
+
 ### 5、nodejs
 5.1 `app.listen()` vs `require('http').createServer(app)`
 
