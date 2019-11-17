@@ -1,1 +1,1 @@
-
+* Chrome的device mode中鼠标左键点击的时候除了有touchStart事件，还会触发mouseDown事件，并且有300ms的延迟。这个时候如果你的某个元素检测mouseDown事件的话会被触发的
