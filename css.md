@@ -74,3 +74,13 @@ user-select: none;
   }
 }
 ```
+
+* safari的input框disabled属性覆盖
+
+```
+input:disabled{
+  opacity: 1;
+  color: rgba(51,51,51,1);
+  -webkit-text-fill-color: #333;
+}
+```

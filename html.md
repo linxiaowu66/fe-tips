@@ -61,3 +61,7 @@ handleEdit = (type, e) => {
   }}
 />
 ```
+
+* disable属性和placeholder的是互相冲突的
+
+* ios上只有用户交互触发的focus事件才会起效，而延时回调的focus是不会触发的，说得通俗点就是你想在ios上生效focus事件就不能讲focus事件放在延时里面调用
